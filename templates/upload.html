@@ -1,0 +1,51 @@
+<!doctype html>
+<title>Few Shot Object Train</title>
+<style type="text/css">
+body {
+    text-align: center;
+}
+form {
+    display: inline-block;
+}
+</style>
+<script>
+	function deploy(form) {
+		model = document.getElementById('sel').value;
+	}
+</script>
+<h2>First, <a href="https://www.makesense.ai/">here</a> do labeling for training images and download label data in csv format</h2>
+<h2>Select image file(s) to upload and label data</h2>
+<p>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+</p>
+<form method="post" action="/" enctype="multipart/form-data">
+	<dl><dd>model name:  <input type="text" name="model" id="model" required> </dd></dl>
+    <dl><dd>images: <input type="file" name="files[]" multiple="true" autocomplete="off" required> </dd></dl>
+	<dl><dd>label:  <input type="file" name="label"  autocomplete="off" required> </dd></dl>	
+    <p>
+		<input type="submit" value="Training">
+	</p>
+</form>
+
+<h2>Select model </h2>
+<form id='myform' action="/loadmodel/"  method="post" enctype="multipart/form-data">
+<p>
+<select name="comp_select" id="sel" class="combobox">
+	{% for model in models:  %}
+	<option value={{ model }}>{{ model }}</option>
+	{% endfor %}
+</select>
+</p>
+<p>	
+	<input type="submit" value="Deploy" >
+</p>
+
+</form>	
